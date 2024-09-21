@@ -1,0 +1,22 @@
+Linux Incident Surface:
+    System logs
+    auth.log, syslog, krnl.log, etc
+    Network traffic
+    Running processes
+    Running services
+    The integrity of the files and processes
+
+use lsof tool:
+-> It stands of List Open Files. This command displays the information about the files opened by the processes. 
+-> lsof -p <process_id>
+-> lsof -i -P -n
+-i: This flag shows information about the network connections, including sockets and open network files.
+-P: This flag is used to display the port numbers.
+-n: This flag shows the IP address instead of resolving them to hostnames.
+
+use Osquery(use sql commands to check processes running):
+osquery to explore processes and its network connection. To start osquery, open a new terminal and run the command with root user:
+
+Command: osqueryi
+Osquery command: SELECT pid, fd, socket, local_address, remote_address FROM process_open_sockets WHERE pid = <PID>;
+

@@ -1,0 +1,11 @@
+1. First did a port scan and found only port 80 is open
+2. Then did directory enum and found out an endpoint '/webdav' which had a login interface which had default creds.
+3. Then found out i can upload files and can access them. So uploaded a shell and got a revershell.
+4. and then executed linpeas to find if i could find an exploit(no luck)
+5. then in the sudoers file i saw this
+User www-data may run the following commands on ubuntu:
+    (ALL) NOPASSWD: /bin/cat
+
+it means i can read any file using the cat command.
+6. then i directly read the flag file i.e. `sudo /bin/cat /root/root.txt` 
+

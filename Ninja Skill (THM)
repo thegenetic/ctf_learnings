@@ -1,0 +1,2 @@
+list all the groups in linux: cat /etc/group
+list all the file of a particular group: find / -group <groupname>

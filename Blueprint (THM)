@@ -1,0 +1,13 @@
+Learned about NTLM (New Technology LAN Manager) - stores all the local user's hashes, SMB (Server Message Block)
+
+1. First found out the open ports and i found out a lot's of em open.
+2. Then i found port 80 is not rechable then accessed a directory using port 8080 which had an ecommerce store (which was also vulnerable and found a cve on researching a bit).
+3. Then i saw a reverse shell poc on that particular CMS.
+4. Then i've searched the name of that particular store on searchsploit and found that it has a python code which gives me a reverse shell.
+5. Then after successfulling gaining the shell i got into a windows server. From ther i submitted the root flag. Then went looking for the NTLM hash value.
+6. It was unknown to me then after researching i still couldn't figure out some missing parts to how to get the hash and then got an article which says the following about it:
+  - These hashes are called windows hashes. In this window stores it password on the machine itself
+  - To learn a bit more about it reffer to this article (https://aas-s3curity.gitbook.io/cheatsheet/internalpentest/active-directory/post-exploitation/extracting-credentials/retrieve-windows-hashes)
+  - After that by copying the SAM(Security Account Manager) hive i.e. the SAM data base which include SAM, SYSTEM, SECURITY files (process is mentioned in the above article) 
+using the reg.exe (Read, Set or Delete registry keys and values, save and restore from a .REG file).
+  - then afterreciving the hash craced it with crackstation and submitted the other flag.

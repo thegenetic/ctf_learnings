@@ -6,3 +6,4 @@ Lookup DNS TXT records 	                  nslookup -type=TXT tryhackme.com
 Lookup DNS A records 	                    dig tryhackme.com A
 Lookup DNS MX records at DNS server 	    dig @1.1.1.1 tryhackme.com MX
 Lookup DNS TXT records 	                  dig tryhackme.com TXT
+Site                                      Shodan, netlas, fofa
